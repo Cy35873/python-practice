@@ -1,6 +1,6 @@
 import sys, os
 
-commands=['ad','rm','help','q','clr','ud','sort'] # list of allowed function that the user may execute to prevent the user from executing unwanted commands
+commands=['a','r','help','q','clr','ud','sort'] # list of allowed function that the user may execute to prevent the user from executing unwanted commands
 
 hist='' # string that stores the previous state of todo.txt so that the ud; (undo) function works
 
@@ -13,16 +13,16 @@ def loghist(): # function that saves the content of todo.txt the hist variable b
     with open(todopath, "r") as file:
         hist=file.read() # saves previous state to variable hist
 
-def ud(): # undo
+def ud(): # undo 
     with open(todopath, "w") as file:
         file.write(hist) # writes hist to todo.txt, undoing the previous action
 
-def ad(a): # function to add a task
+def a(a): # function to add a task
     loghist() # function that saves the content of todo.txt the hist variable before executing funcmap(user_input)
     with open(todopath, "a") as file:
         file.write(str(a)+'\n') # writes a new line for the new task
 
-def rm(a): # remove/complete a task
+def r(a): # remove/complete a task
     global msg # tells the function that msg is a global variable
     loghist() # function that saves the content of todo.txt the hist variable before executing funcmap(user_input)
     a=a.strip() # removes any useless characters from the end of the arument like spaces
@@ -54,7 +54,7 @@ def pr(): # show list of tasks
 
 def help(): # prints helpful information
     global msg # tells the function that msg is a global variable
-    msg='\033[32mJintTodo is a minimal todo application built in Python. Todo files are stored in the todo.txt file in the same directory.\nad;<task name>: adds a new task. Example: ad;buy milk\nrm;<task number>: removes a task.\nq: quits jintTodo.\nclr: deletes all of your tasks.\nud: undo command\nsort: Displays tasks sorted by unicode value (alphabetical order).\nTip: use ISO 8601 date formatting (year-month-day) in the beginning of the task name and use the sort; command to see your tasks sorted by date.\033[0m'
+    msg='\033[32mJintTodo is a minimal todo application built in Python. Todo files are stored in the todo.txt file in the same directory.\na <task name>: adds a new task. Example: a buy milk\nr <task number>: removes a task.\nq: quits jintTodo.\nclr: deletes all of your tasks.\nud: undo command\nsort: Displays tasks sorted by unicode value (alphabetical order).\nTip: use ISO 8601 date formatting (year-month-day) in the beginning of the task name and use the sort; command to see your tasks sorted by date.\033[0m'
 
 def q():
     quit()
@@ -80,16 +80,19 @@ def sort(): # prints the todolist in alphabetical order
 
 def funcmap(a): # maps the user input to a function and executes it
     global msg # tells the function that msg is a global variable
-    funcarg=a.split(';') # splits the user_input into parts separated by ;
+    funcarg=a.split(' ') # splits the user_input into parts separated by ;
     funcname=funcarg[0] # first part of user_input is the function/command name
     if len(funcarg)>1: # checks if there is an argument
-        argument=';'.join(funcarg[1:]) # makes the rest of it one single argument. example: for the command a;b;c, 'a' is the funcarg and 'b;c' is the argument, instead of splitting it into more than 2 parts (a, b, and c).
+        argument=' '.join(funcarg[1:]) # makes the rest of it one single argument. example: for the command a;b;c, 'a' is the funcarg and 'b;c' is the argument, instead of splitting it into more than 2 parts (a, b, and c).
     func=globals().get(funcname)
     if funcname in commands: # checks if the function is an allowed to be run
         try:
             func() # attemps to run the function without an  argument
         except TypeError: # if it fails, that means that the function needs an argument
-            func(argument) # executes the function with the argument
+            try:    
+                func(argument) # executes the function with the argument
+            except UnboundLocalError:
+                msg=f"\033[91mSyntax error: no argument provided\033[0m"
     else:
         msg=f"\033[91mSyntax error: command \"{a}\" not found\033[0m"
 
