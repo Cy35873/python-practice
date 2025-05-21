@@ -1,8 +1,10 @@
 import sys, os
 
-commands=['a','r','help','q','clr','ud','sort'] # list of allowed function that the user may execute to prevent the user from executing unwanted commands
+# ADD REDO FUNCTION PLS
 
-hist='' # string that stores the previous state of todo.txt so that the ud; (undo) function works
+commands=['a','r','help','q','clr','ud','sort','sortw'] # list of allowed function that the user may execute to prevent the user from executing unwanted commands
+
+hist=[]  # list that stores the previous states of todo.txt so that the ud (undo) function works
 
 msg='' # string that stores any error or information messages that the program may show the user
 
@@ -11,11 +13,11 @@ todopath=os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'todo.txt')
 def loghist(): # function that saves the content of todo.txt the hist variable before executing funcmap(user_input)
     global hist # tells the function that msg is a global variable
     with open(todopath, "r") as file:
-        hist=file.read() # saves previous state to variable hist
+        hist.append(file.read()) # saves previous state to variable hist
 
 def ud(): # undo 
     with open(todopath, "w") as file:
-        file.write(hist) # writes hist to todo.txt, undoing the previous action
+        file.write(hist.pop()) # writes hist to todo.txt, undoing the previous action
 
 def a(a): # function to add a task
     loghist() # function that saves the content of todo.txt the hist variable before executing funcmap(user_input)
@@ -54,7 +56,7 @@ def pr(): # show list of tasks
 
 def help(): # prints helpful information
     global msg # tells the function that msg is a global variable
-    msg='\033[32mJintTodo is a minimal todo application built in Python. Todo files are stored in the todo.txt file in the same directory.\na <task name>: adds a new task. Example: a buy milk\nr <task number>: removes a task.\nq: quits jintTodo.\nclr: deletes all of your tasks.\nud: undo command\nsort: Displays tasks sorted by unicode value (alphabetical order).\nTip: use ISO 8601 date formatting (year-month-day) in the beginning of the task name and use the sort; command to see your tasks sorted by date.\033[0m'
+    msg='\033[32mJintTodo is a minimal todo application built in Python. Todo files are stored in the todo.txt file in the same directory.\na <task name>: adds a new task. Example: a buy milk\nr <task number>: removes a task.\nq: quits jintTodo.\nclr: deletes all of your tasks.\nud: undo command\nsort: Displays tasks sorted by unicode value (alphabetical order).\nsortw: sorts tasks by alphabetical order and writes it to file.\nTip: use ISO 8601 date formatting (year-month-day) in the beginning of the task name and use the sort; command to see your tasks sorted by date.\033[0m'
 
 def q():
     quit()
@@ -76,7 +78,15 @@ def sort(): # prints the todolist in alphabetical order
                 msg=msg+'\033[34m'+str(lineindex)+' \033[0m' # prints the line number (inital line number is 0)
                 lineindex+=1 # increments line number by 1 for next print
                 msg=msg+(sorted(content)[lineindex])+'\n' # prints the line
-        msg=msg.strip() # removes useless spaces or newlines at the end of the message        
+        msg=msg.strip() # removes useless spaces or newlines at the end of the message
+
+def sortw(): # prints the todolist in alphabetical order
+    global content
+    global msg
+    grig=sorted(content)[1:]
+    del content[0]
+    with open(todopath, "w") as file:
+        file.write('\n'.join(grig)+'\n') # writes a new line for the new task
 
 def funcmap(a): # maps the user input to a function and executes it
     global msg # tells the function that msg is a global variable
@@ -97,7 +107,7 @@ def funcmap(a): # maps the user input to a function and executes it
         msg=f"\033[91mSyntax error: command \"{a}\" not found\033[0m"
 
 os.system('cls' if os.name == 'nt' else 'clear') # clears the terminal
-loghist() # make the hist variable equal to the content of todo.txt so that undoing does nothing (overwrites with what is already there), instead of overwriting with nothing
+loghist() # make the hist variable equal to the sorted(content)[1:] of todo.txt so that undoing does nothing (overwrites with what is already there), instead of overwriting with nothing
 
 while True: # repeat this forever
     with open(todopath, "r") as file:
