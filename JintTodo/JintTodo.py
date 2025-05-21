@@ -2,7 +2,7 @@ import sys, os
 
 # ADD REDO FUNCTION PLS
 
-commands=['a','r','help','q','clr','ud','sort','sortw'] # list of allowed function that the user may execute to prevent the user from executing unwanted commands
+commands=['a','r','help','q','clr','ud','sort','sortw','e'] # list of allowed function that the user may execute to prevent the user from executing unwanted commands
 
 hist=[]  # list that stores the previous states of todo.txt so that the ud (undo) function works
 
@@ -56,7 +56,7 @@ def pr(): # show list of tasks
 
 def help(): # prints helpful information
     global msg # tells the function that msg is a global variable
-    msg='\033[32mJintTodo is a minimal todo application built in Python. Todo files are stored in the todo.txt file in the same directory.\na <task name>: adds a new task. Example: a buy milk\nr <task number>: removes a task.\nq: quits jintTodo.\nclr: deletes all of your tasks.\nud: undo command\nsort: Displays tasks sorted by unicode value (alphabetical order).\nsortw: sorts tasks by alphabetical order and writes it to file.\nTip: use ISO 8601 date formatting (year-month-day) in the beginning of the task name and use the sort; command to see your tasks sorted by date.\033[0m'
+    msg='\033[32mJintTodo is a minimal todo application built in Python. Todo files are stored in the todo.txt file in the same directory.\na <task name>: adds a new task. Example: a buy milk\nr <task number>: removes a task.\nq: quits jintTodo.\nclr: deletes all of your tasks.\nud: undo command\nsort: Displays tasks sorted by unicode value (alphabetical order).\nsortw: sorts tasks by alphabetical order and writes it to file.\ne: refresh file\nTip: use ISO 8601 date formatting (year-month-day) in the beginning of the task name and use the sort; command to see your tasks sorted by date.\033[0m'
 
 def q():
     quit()
@@ -83,6 +83,7 @@ def sort(): # prints the todolist in alphabetical order
 def sortw(): # prints the todolist in alphabetical order
     global content
     global msg
+    loghist()
     grig=sorted(content)[1:]
     del content[0]
     with open(todopath, "w") as file:
@@ -106,10 +107,12 @@ def funcmap(a): # maps the user input to a function and executes it
     else:
         msg=f"\033[91mSyntax error: command \"{a}\" not found\033[0m"
 
-os.system('cls' if os.name == 'nt' else 'clear') # clears the terminal
-loghist() # make the hist variable equal to the sorted(content)[1:] of todo.txt so that undoing does nothing (overwrites with what is already there), instead of overwriting with nothing
+def e():
+    main()
 
-while True: # repeat this forever
+def main():
+    global msg
+    global content
     with open(todopath, "r") as file:
         content=file.read().split('\n') # updates the content variable. content is the variable that stores all of the lines in todo.txt as a list.
     os.system('cls' if os.name == 'nt' else 'clear') # clears the terminal
@@ -124,3 +127,9 @@ while True: # repeat this forever
     user_input=input('\033[96m>> ') # gives the user a prompt to enter a command. color is light blue.
     print('\033[0m') # resets text color to normal
     funcmap(user_input) # executes a function based on user_input
+
+os.system('cls' if os.name == 'nt' else 'clear') # clears the terminal
+loghist() # make the hist variable equal to the sorted(content)[1:] of todo.txt so that undoing does nothing (overwrites with what is already there), instead of overwriting with nothing
+
+while True: # repeat this forever
+    main()
