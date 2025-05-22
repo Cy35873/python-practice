@@ -1,7 +1,5 @@
 import sys, os
 
-# ADD REDO FUNCTION PLS
-
 commands=['a','r','help','q','clr','ud','sort','sortw','e','cf','ls'] # list of allowed function that the user may execute to prevent the user from executing unwanted commands
 
 def help(): # prints helpful information

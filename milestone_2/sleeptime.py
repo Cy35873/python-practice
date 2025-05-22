@@ -1,4 +1,5 @@
 import math
+print('no information entered in the program is stored anywhere except for your local memory. all personal information entered in this program is completely destroyed upon quitting.')
 print()
 def sleeptime(age):
     try:
@@ -11,7 +12,7 @@ def sleeptime(age):
     except ValueError:
         print('That is not a valid age.')
         quit()
-wakeuptime=input('What time do you/want to wake up? (HH:mm) ')
+wakeuptime=input('What time do you (want to) wake up? (HH:mm) ')
 try:
     wakeuptime2=float(wakeuptime.split(':')[0])+float(wakeuptime.split(':')[1])/60
 except ValueError:
