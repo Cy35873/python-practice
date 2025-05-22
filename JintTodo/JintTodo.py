@@ -2,13 +2,50 @@ import sys, os
 
 # ADD REDO FUNCTION PLS
 
-commands=['a','r','help','q','clr','ud','sort','sortw','e'] # list of allowed function that the user may execute to prevent the user from executing unwanted commands
+commands=['a','r','help','q','clr','ud','sort','sortw','e','cf','ls'] # list of allowed function that the user may execute to prevent the user from executing unwanted commands
+
+def help(): # prints helpful information
+    global msg # tells the function that msg is a global variable
+    msg='\033[32mJintTodo is a minimal todo list application built in Python. The todo lists are stored todo.txt as well as user-created files in the same directory as JintTodo.py.\na <task name>: adds a new task. Example: a buy milk\nr <task number>: removes a task.\nq: quits jintTodo.\nclr: deletes all of your tasks.\nud: undo command\nsort: Displays tasks sorted by unicode value (alphabetical order).\nsortw: sorts tasks by alphabetical order and writes it to file.\ne: refresh file.\ncf <path>: open or create a new todo list.\nls: displays all of your todo lists.\nTip: use ISO 8601 date formatting (year-month-day) in the beginning of the task name and use the sort; command to see your tasks sorted by date.\033[0m'
 
 hist=[]  # list that stores the previous states of todo.txt so that the ud (undo) function works
 
 msg='' # string that stores any error or information messages that the program may show the user
 
-todopath=os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'todo.txt') # creates a variable for the path of todo.txt which makes the code more readable
+cwf='todo.txt'
+
+todopath=os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), cwf) # creates a variable for the path of todo.txt which makes the code more readable
+
+def cf(file): # change the current working file
+    global todopath
+    global msg
+    global cwf
+    global hist
+    file=file.strip()
+    newpath=os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), file)
+    if file!='':
+        if file!='JintTodo.py':
+            if os.path.isfile(newpath):
+                todopath=os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), file)
+                cwf=file
+                e()
+                hist=[]
+            else:
+                with open(newpath, 'w') as file2:
+                    pass
+                todopath=os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), file)
+                msg=f'\033[32mCreated a new file titled {file}\033[0m'
+                cwf=file
+                e()
+                hist=[]
+        else:
+            msg=f'\033[91mYou cannot open JintTodo.py. Tampering with JintTodo.py can cause the program to break.\033[0m'
+    else:
+        msg=f'\033[91mBad name: your title is either empty or only contains invisible characters.\033[0m'
+
+def ls():
+    global msg
+    msg='\n'.join([x for x in os.listdir(os.path.dirname(os.path.abspath(sys.argv[0]))) if x!='JintTodo.py'])
 
 def loghist(): # function that saves the content of todo.txt the hist variable before executing funcmap(user_input)
     global hist # tells the function that msg is a global variable
@@ -54,16 +91,13 @@ def pr(): # show list of tasks
                 print(content[lineindex-1]) # prints the line
     # if the content of todo.txt is empty, nothing will print
 
-def help(): # prints helpful information
-    global msg # tells the function that msg is a global variable
-    msg='\033[32mJintTodo is a minimal todo application built in Python. Todo files are stored in the todo.txt file in the same directory.\na <task name>: adds a new task. Example: a buy milk\nr <task number>: removes a task.\nq: quits jintTodo.\nclr: deletes all of your tasks.\nud: undo command\nsort: Displays tasks sorted by unicode value (alphabetical order).\nsortw: sorts tasks by alphabetical order and writes it to file.\ne: refresh file\nTip: use ISO 8601 date formatting (year-month-day) in the beginning of the task name and use the sort; command to see your tasks sorted by date.\033[0m'
-
 def q():
     quit()
 
-def clr(): # delete all tasks, overwrite todo.txt with nothing
-    loghist() # function that saves the content of todo.txt the hist variable before executing funcmap(user_input)
-    confirm=input('\033[91mAre you sure you want to remove all of your tasks? [y]/[type anything else] \033[0m')
+def clr(): # delete all tasks, overwrite current file with nothing
+    global cwf
+    loghist() # function that saves the content of the current working file to the hist variable before executing funcmap(user_input)
+    confirm=input(f'\033[91mAre you sure you want to remove all tasks inside of {cwf}? [y]/[type anything else] \033[0m')
     if confirm.lower().strip()=='y': # checks if the user input is yes
         with open(todopath, "w") as file:
             file.write('') # overwrites todo.txt with nothing
@@ -121,10 +155,10 @@ def main():
         plural='s'
     else:
         plural=''
-    print(f'\n\033[90mJintTodo: You have {len(content)-1} task{plural}. Type help; for help, type ud; for undo\033[0m')
+    print(f'\n\033[90mJintTodo: You have {len(content)-1} task{plural}. Type help for help, type ud for undo\033[0m')
     pr() # prints out todo.txt
     msg='' # resets the message so that it doesn't appear multiple times
-    user_input=input('\033[96m>> ') # gives the user a prompt to enter a command. color is light blue.
+    user_input=input(f'\033[96m{cwf}> ') # gives the user a prompt to enter a command. color is light blue.
     print('\033[0m') # resets text color to normal
     funcmap(user_input) # executes a function based on user_input
 
