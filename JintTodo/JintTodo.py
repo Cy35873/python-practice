@@ -148,12 +148,12 @@ def main():
     with open(todopath, "r") as file:
         content=file.read().split('\n') # updates the content variable. content is the variable that stores all of the lines in todo.txt as a list.
     os.system('cls' if os.name == 'nt' else 'clear') # clears the terminal
-    print(msg,end='') # prints out information for the user related the previous input
     if len(content)!=2:
         plural='s'
     else:
         plural=''
     print(f'\n\033[90mJintTodo: You have {len(content)-1} task{plural}. Type help for help, type ud for undo\033[0m')
+    print(msg) # prints out information for the user related the previous input
     pr() # prints out todo.txt
     msg='' # resets the message so that it doesn't appear multiple times
     user_input=input(f'\033[96m{cwf}> ') # gives the user a prompt to enter a command. color is light blue.
