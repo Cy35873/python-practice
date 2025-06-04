@@ -1,0 +1,40 @@
+jint syntax
+
+assign value to a variable
+a=type(b)
+
+get user input
+i()
+
+print output (write string to current terminal cursor position)
+o()
+
+where a is the variable you are changing
+type is the type of variable
+b is what you are changing the variable to
+
+boolean operators
+not(bln1) (flips the truth of the input eg. true becomes false and false becomes true)
+bln1 and bln2 (only outputs true if both inputs are true, else output false)
+bln1 or bln2 (only outputs false if both inputs are false, else output true)
+
+relation operators
+== (equality)
+> (greater than)
+
+Variable types:
+int (integer)
+flt (floating-point number)
+str (string)
+lst (list)
+bln (boolean)
+fnc (fnction)
+
+if statements (implication)
+    bln1->(fnc())
+
+if else statements
+    bln1->(fnc());not(bln2)->(fnc2())
+
+if elif else statements
+    bln2->(fnc());not(bln1) or bnl2->(fnc2());not(bln1) or not(bln2)->(fnc3())

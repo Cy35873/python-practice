@@ -1,10 +1,21 @@
-def jint(q,ca):
-    global score
-    ca=ca.lower().split('/')
-    ua=input(q+' \n>> ')
-    if ua in ca:
-        print('Correct')
-        score+=1
-    else:
-        print('Incorrect')
-jint('This is a test','a/B/c/D')
+correct=0 
+total=0
+def jint(q,ca): # this is a function that asks a question, requests a user input, and decides whether if the input is correct.
+    global correct
+    global total
+    ca=ca.split('`') # splits the answer so multiple answers are allowed. eg a`b will make it so a and b are two accepted answers.
+    ua=input('Q: '+q+' \n>> ') # this is the input.
+    if ua in ca: # checks if the user input is included in the list of accepted correct answers
+        print('\033[32mCorrect\033[0m') # tells the user that their answer is correct
+        correct+=1 # increases the number of correct answers by 1
+    else: # if it is not correct
+        print('\033[91mIncorrect\033[0m') # tell the user that their answer is incorrect
+    total+=1 # either way, increase the number of answered questions by 1
+print('Welcome to Jint SI quiz. Make sure that your answers are in standard symbolic notation.') # greeting message
+jint('What is the SI unit for mass?','kg')
+jint('What is the SI unit for weight?','N')
+jint('What is the SI unit for density?','kg/m^3')
+jint('What is the SI unit for pressure?','Pa`N/m^2')
+jint('What SI unit is used to measure energy over time?','W')
+jint('What is the SI unit for velocity?','m/s`ms^-1')
+print(f'Your score is {correct}/{total}')

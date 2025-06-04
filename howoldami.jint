@@ -1,0 +1,1 @@
+fnc(f())=(o(str(What is your birth year? ));by=i();o(str(\nWhat is the current year? ));cy=i();try(by=int(by));error->(o(str(\nThat is not a valid integer));continue(););try(cy=int(cy));error->(o(str(\nThat is not a valid integer));continue(););by>cy->(o(str(\nYou are lying. ));continue();)o(str(You are ));o(cy-by);o( years old.);)
