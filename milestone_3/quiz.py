@@ -1,18 +1,23 @@
 correct = 0 # stores the amount of CORRECTLY answered questions
-total   = 0   # stores the amount of answered questions
+total   = 0 # stores the amount of answered questions
 
-# define question function
-def jint(q,ca,ex): # this is a function that asks a question, requests a user input, and decides whether if the input is correct.
+# define question function. this is a function that asks a question, requests a user input, and decides whether if the input is correct.
+def jint(q,ca,ex): # q is the question that is asked, ca is the list of acceptable answers, ex is the explaination given after the user has answered.
+
     global correct # this makes sure that the 'correct' variable is referring to the global variable and not some local one.
     global total # this makes sure that the 'total' variable is referring to the global variable and not some local one.
+
     ca=ca.split('`') # splits the answer so multiple answers are allowed. eg a`b will make it so a and b are two accepted answers.
     ua=input('Q: '+q+' \n>> ') # this is the input.
-    if ua in ca: # checks if the user input is included in the list of accepted correct answers
+
+    if ua in ca:# checks if the user input is included in the list of accepted correct answers
         print('\033[32mCorrect\033[0m') # tells the user that their answer is correct
         correct += 1 # increases the number of correct answers by 1
     else: # if it is not correct
         print('\033[91mIncorrect\033[0m') # tell the user that their answer is incorrect
-    print(f'\033[94mExplaination: {ex}\033[0m')
+
+    print(f'\033[94mExplaination: {ex}\033[0m') # gives an explaination
+
     total += 1 # either way, increase the number of answered questions by 1
 
 # greeting message
