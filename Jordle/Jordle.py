@@ -1,3 +1,5 @@
+# Jordle is a wordle clone that I made. You can choose your own keyboard layout. Add words or add custom words in WORDS.txt
+
 import os, sys, random, time
 
 letters='qwfpbjluyarstgmneioxcdvzkh' # this is a just a string to help the program know what is considered a letter when it needs it
