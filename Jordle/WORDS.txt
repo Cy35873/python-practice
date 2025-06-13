@@ -3302,7 +3302,6 @@ newts
 meany
 bunts
 razes
-goons
 wicks
 ruses
 vends
@@ -3464,6 +3463,8 @@ farad
 saver
 tilde
 jingo
+jints
+jinty
 bower
 serif
 facto
@@ -5571,6 +5572,7 @@ nonny
 olios
 grook
 sates
+aglet
 agley
 corgi
 dashy

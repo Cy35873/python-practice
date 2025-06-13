@@ -7,8 +7,8 @@ def jint(q,ca,ex): # q is the question that is asked, ca is the list of acceptab
     global correct # this makes sure that the 'correct' variable is referring to the global variable and not some local one.
     global total # this makes sure that the 'total' variable is referring to the global variable and not some local one.
 
-    ca=ca.split('`') # splits the answer so multiple answers are allowed. eg a`b will make it so a and b are two accepted answers.
-    ua=input('Q: '+q+' \n>> ') # this is the input.
+    ca = ca.split('`') # splits the answer so multiple answers are allowed. eg a`b will make it so a and b are two accepted answers.
+    ua= input('Q: '+q+' \n>> ') # this is the input.
 
     if ua in ca:# checks if the user input is included in the list of accepted correct answers
         print('\033[32mCorrect\033[0m') # tells the user that their answer is correct

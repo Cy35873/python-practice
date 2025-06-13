@@ -15,7 +15,8 @@ def r(str): # function that turn any string into red color
 def w(str): # function that turn any string into white color
     return f'\033[1;30m{str}\033[0m'
 
-def printLetters():
+def appendScore():
+    global win
     global score
     score+='\n'
     for i in range(5):
@@ -38,16 +39,21 @@ with open(wordsPath, 'r') as f:
     words=f.read().split('\n')
 word=random.choice(words)
 
-while True:
+for i in range(7):
+    if i==0:
+        guess=''
     os.system('cls' if os.name == 'nt' else 'clear')
     print(''.join(keyboard))
     print(score)
+    if guess==word:
+        quit()
+
     guess=input().lower()
     sys.stdout.write('\033[F\033[K')
     sys.stdout.flush()
     if len(guess)==5:
         if guess in words:
-            printLetters()
+            appendScore()
         else:
             print(r('Not in word list'))
             time.sleep(0.5)
