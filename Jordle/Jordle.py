@@ -1,4 +1,4 @@
-# Jordle is a wordle clone that I made. You can choose your own keyboard layout. Add words or add custom words in WORDS.txt
+# Jordle is a wordle clone that I made because I can't find any that let you use custom keyboard layouts. Add words or add custom words in WORDS.txt
 
 import os, sys, random, time
 
@@ -41,16 +41,18 @@ with open(wordsPath, 'r') as f:
     words=f.read().split('\n')
 word=random.choice(words)
 
-for i in range(7):
-    if i==0:
-        guess=''
+guess=''
+while True:
     os.system('cls' if os.name == 'nt' else 'clear')
-    print(''.join(keyboard))
+    print(w('Jordle. Type quit to give up.'))
+    print(''.join(keyboard),end='')
     print(score)
     if guess==word:
         quit()
-
     guess=input().lower()
+    if guess=='quit':
+        print(f'The word was {g(word)}')
+        quit()
     sys.stdout.write('\033[F\033[K')
     sys.stdout.flush()
     if len(guess)==5:
