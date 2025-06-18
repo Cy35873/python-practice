@@ -2,7 +2,6 @@
 
 import os, sys, random, time
 
-letters='qwfpbjluyarstgmneioxcdvzkh' # this is a just a string to help the program know what is considered a letter when it needs it
 layout=[char for char in 'qwfpbjluy\narstgmneio\n xcdvzkh'] # this is the keyboard layout. the default is Colemak DH. feel free to change it to whatever you like. make sure to *not* include any letter more than once (don't have any duplicates).
 score='' # this will store the words you have previously entered with their colors
 
@@ -10,15 +9,14 @@ def g(str): # function that turn any string into green color
     return f'\033[92m{str}\033[0m'
 def y(str): # function that turn any string to yellow color
     return f'\033[33m{str}\033[0m'
-def n(str): # function that turn any string to gray color
+def n(str): # function that turn any string to white color
     return f'\033[37m{str}\033[0m'
 def r(str): # function that turn any string into red color
     return f'\033[91m{str}\033[0m'
-def w(str): # function that turn any string into white color
+def w(str): # function that turn any string into gray color
     return f'\033[1;30m{str}\033[0m'
 
 def appendScore():
-    global win
     global score
     score+='\n'
     for i in range(5):
@@ -34,7 +32,7 @@ def appendScore():
             score+=w(guess[i])
             keyboard[layout.index(guess[i])]=w(guess[i])
 
-keyboard=[n(x) if x in letters else x for x in layout] # this is what stores the keyboard that will be printed, with colored letters/keys.
+keyboard=[n(x) if x in 'qwfpbjluyarstgmneioxcdvzkh' else x for x in layout] # this is what stores the keyboard that will be printed, with colored letters/keys.
 
 wordsPath=os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), 'WORDS.txt')
 with open(wordsPath, 'r') as f:
